@@ -3,6 +3,7 @@ import Dashboard from "../components/dashboard";
 
 function PostList() {
     const [posts, setPosts] = useState([]);
+    const [search, setSearch] = useState("");
 
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 5;
@@ -14,10 +15,15 @@ function PostList() {
             .catch(err => console.error(err));
     }, []);
 
+    // Filter posts by author name using filter method
+    const filteredPosts = posts.filter(post =>
+        post.author?.user_name.toLowerCase().includes(search.toLowerCase())
+    );
+
     // Pagination logic
     const lastIndex = currentPage * postsPerPage;
     const firstIndex = lastIndex - postsPerPage;
-    const currentPosts = posts.slice(firstIndex, lastIndex);
+    const currentPosts = filteredPosts.slice(firstIndex, lastIndex);
 
     const totalPages = Math.ceil(posts.length / postsPerPage);
 
@@ -60,11 +66,18 @@ function PostList() {
         backgroundColor: active ? "#007bff" : "#fff",
         color: active ? "#fff" : "#000"
     });
+    const filterboxStyle = {
+        marginBottom: "20px",
+        padding: "8px",
+        width: "100%",
+        borderRadius: "5px",
+        border: "1px solid #ccc"
+    }
 
     return (
         <Dashboard>
             <h2>Post List</h2>
-
+            <input type="text" placeholder="Search author name" value={search} onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }} style={filterboxStyle} />
             {currentPosts.map(post => (
                 <div key={post._id} style={cardStyle}>
 
