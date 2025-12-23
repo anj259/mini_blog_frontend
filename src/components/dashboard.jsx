@@ -54,7 +54,7 @@ function Dashboard({ children }) {
                     <button onClick={() => navigate("/addpost")} style={btnStyle} >
                         Add Post
                     </button>
-                    <button onClick={() => navigate("/postbyuser/:id")} style={btnStyle} >
+                    <button onClick={() => navigate("/postbyuser")} style={btnStyle} >
                         My Posts
                     </button>
                 </div>
