@@ -6,6 +6,7 @@ import Login from './user/login'
 import PostList from './posts/post_list'
 import AddPost from './posts/create_post'
 import PostByUser from './posts/postlist_byuser'
+import UpdatePost from './posts/updatepost'
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/posts" element={<PostList />} />
         <Route path="/addpost" element={<AddPost />} />
-        <Route path="/postbyuser/:id" element={<PostByUser />} />
+        <Route path="/postbyuser" element={<PostByUser />} />
+        <Route path="/updatepost/:id" element={<UpdatePost />} />
       </Routes>
     </BrowserRouter>
   )
