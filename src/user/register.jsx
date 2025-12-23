@@ -6,6 +6,7 @@ function Register() {
     const [email, setEmail] = useState("");
     const [mobileNumber, setMobileNumber] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const navigate = useNavigate();
 
@@ -28,14 +29,14 @@ function Register() {
             console.log(result);
 
             if (response.ok) {
-                alert("Registration Successful!");
+                // alert("Registration Successful!");
                 navigate("/login");
             } else {
-                alert(result.message || "Registration failed");
+                setError(result.message || "Registration failed");          
             }
         } catch (error) {
             console.error("Error during registration:", error);
-            alert("Server error. Please try again later.");
+            setError("Server error. Please try again later.");
         }
     };
 
@@ -67,11 +68,15 @@ function Register() {
     return (
         <form style={formStyle} onSubmit={collectData}>
             <h2>Register</h2>
-
             <input style={inputStyle} placeholder="Username" value={userName} onChange={e => setUserName(e.target.value)} />
             <input style={inputStyle} placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
             <input style={inputStyle} placeholder="Mobile Number" value={mobileNumber} onChange={e => setMobileNumber(e.target.value)} />
             <input style={inputStyle} type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+            {error && (
+                <p style={{ color: "red", fontSize: "14px" }}>
+                    {error}
+                </p>
+            )}
             <button style={btnStyle}>Register</button>
             <p className="text-center text-gray-600">
                 Already have an account?

@@ -4,23 +4,29 @@ import { Link } from "react-router-dom";
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const loginUser = async (e) => {
         e.preventDefault();
 
-        const res = await fetch("http://localhost:3000/api/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
-        });
+        try {
+            const res = await fetch("http://localhost:3000/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
 
-        const data = await res.json();
+            const data = await res.json();
 
-        if (data.token) {
-            localStorage.setItem("token", data.token);
-            alert("Login Successful");
-        } else {
-            alert(data.message);
+            if (data.token) {
+                localStorage.setItem("token", data.token);
+                alert("Login Successful");
+            } else {
+                setError(data.message || "Registration failed");
+            }
+        } catch (error) {
+            console.error("Error during registration:", error);
+            setError("Server error. Please try again later.");
         }
     };
 
@@ -36,7 +42,7 @@ function Login() {
         width: "90%",
         padding: "8px",
         margin: "8px 0",
-        borderRadius :"10px"
+        borderRadius: "10px"
     };
 
     const btnStyle = {
@@ -46,7 +52,7 @@ function Login() {
         color: "white",
         border: "none",
         cursor: "pointer",
-        borderRadius :"10px"
+        borderRadius: "10px"
     };
 
     return (
@@ -55,13 +61,18 @@ function Login() {
 
             <input style={inputStyle} placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
             <input style={inputStyle} type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+            {error && (
+                <p style={{ color: "red", fontSize: "14px" }}>
+                    {error}
+                </p>
+            )}
             <button style={btnStyle}>Login</button>
             <p className="text-center text-gray-600">
-            Dont't have an account?
-            <Link to="/register" className="text-blue-600 font-semibold hover:underline">
-              Register
-            </Link>
-          </p>
+                Dont't have an account?
+                <Link to="/register" className="text-blue-600 font-semibold hover:underline">
+                    Register
+                </Link>
+            </p>
         </form>
     );
 }
