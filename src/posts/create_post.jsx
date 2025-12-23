@@ -52,7 +52,7 @@ function AddPost() {
                 setImage(null);
 
                 setTimeout(() => {
-                    navigate("/posts");
+                    navigate("/postbyuser");
                 }, 1000);
             } else {
                 setError(result.message || "Failed to create post");
@@ -106,11 +106,8 @@ function AddPost() {
             <form onSubmit={handleSubmit} style={formStyle}>
 
                 <input type="text" placeholder="Post Title" value={title} onChange={(e) => setTitle(e.target.value)} style={inputStyle} />
-
                 <textarea placeholder="Post Content" value={content} onChange={(e) => setContent(e.target.value)} style={textareaStyle} />
-
                 <input type="file" onChange={(e) => setImage(e.target.files[0])} />
-
                 <button type="submit" style={buttonStyle}> Add Post</button>
             </form>
         </Dashboard>
